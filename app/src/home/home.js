@@ -24,7 +24,6 @@ define(['angular', 'lodash', 'angular-ui-router'], function(angular) {
 
             /*recognition webkit*/
             var recognition = new webkitSpeechRecognition();
-            var recognitionInit = false;
             recognition.lang = "en-GB";
             recognition.continuous = true;
             recognition.interimResults = true;
@@ -34,13 +33,12 @@ define(['angular', 'lodash', 'angular-ui-router'], function(angular) {
                 console.log(event.results[0][0].transcript);
             };
 
-            $scope.recordEventHandler = function() {
-                recognitionInit = !recognitionInit;
-                if (recognitionInit) {
-                    recognition.start();
-                } else {
-                    recognition.stop();
-                }
+            $scope.recordStartEventHandler = function() {
+                recognition.start();
+            };
+
+            $scope.recordStopEventHandler = function() {
+                recognition.stop();
             };
 
             $scope.uploadEventHandler = function() {
