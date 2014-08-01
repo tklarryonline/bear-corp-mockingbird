@@ -1,16 +1,12 @@
 from django.conf.urls import patterns, include, url
 from rest_framework import routers
 from django.contrib import admin
-from mockingbird_api import views
+from accounts.views import *
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
 
 admin.autodiscover()
 
-urlpatterns = patterns('mockingbird',
+urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mockingbird.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
@@ -18,10 +14,11 @@ urlpatterns = patterns('mockingbird',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     
-    url(r'^', include(router.urls)),
-
+    url(r'^$', 'mockingbird_api.views.api_root'),
     # Account
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^users/$', UserList.as_view(), name='users-list'),
+    url(r'^users/(?P<pk>[0-9]+)/$', UserDetail.as_view(), name='user-detail'),
 
     # Speeches
     url(r'^speeches/', include('speeches.urls')),
