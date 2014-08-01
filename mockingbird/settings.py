@@ -57,6 +57,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'mockingbird_api',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,8 +81,18 @@ WSGI_APPLICATION = 'mockingbird.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-        'default': dj_database_url.config()
-        }
+    # PRODUCTION
+    # 'default': dj_database_url.config()
+    # DEV
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'database.sql',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': ''
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -107,3 +119,9 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+
+# REST
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10
+}
