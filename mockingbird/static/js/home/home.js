@@ -1,4 +1,11 @@
-define(['angular', 'lodash', 'angular-ui-router', 'angular-file-upload'], function(angular) {
+define([
+    'angular',
+    'recorder',
+    'FileSaver',
+    'lodash',
+    'angular-ui-router',
+    'angular-file-upload'
+], function(angular, Recorder) {
     angular.module('homeModule', ['ui.router', 'angularFileUpload']).config(['$stateProvider',
         function($stateProvider) {
             /*config path for home page*/
@@ -17,10 +24,12 @@ define(['angular', 'lodash', 'angular-ui-router', 'angular-file-upload'], functi
             $scope.leaderBoards = _(_.range(20)).map(function(value) {
                 var record = {};
                 record.accuracy = Math.round(Math.random(100) * value);
-                record.mood     = "Excited";
+                record.mood = "Excited";
                 record.userVote = value;
                 return record;
-            }).sortBy(function(record) { return -record.accuracy; }).value();
+            }).sortBy(function(record) {
+                return -record.accuracy;
+            }).value();
             $scope.pageTitle = 'dummy';
 
             /*recognition webkit*/
@@ -34,11 +43,51 @@ define(['angular', 'lodash', 'angular-ui-router', 'angular-file-upload'], functi
                 console.log(event.results[0][0].transcript);
             };
 
+            var mediaStream, localRecorder;
+
             $scope.recordStartEventHandler = function() {
+                var navigator = window.navigator;
                 recognition.start();
+                navigator.getUserMedia = (
+                    navigator.getUserMedia ||
+                    navigator.webkitGetUserMedia ||
+                    navigator.mozGetUserMedia ||
+                    navigator.msGetUserMedia
+                );
+
+                if (navigator.getUserMedia) {
+                    navigator.getUserMedia(
+                        { audio: true },
+                        // successCallback
+                        function(localMediaStream) {
+                            mediaStream           = localMediaStream;
+                            var context           = new webkitAudioContext();
+                            var mediaStreamSource = context.createMediaStreamSource(localMediaStream);
+                            var rec               = new window.Recorder(mediaStreamSource);
+                            rec.record();
+                            localRecorder = rec;
+                            mediaStream = localMediaStream;
+                        },
+
+                        // errorCallback
+                        function(err) {
+                            console.log("The following error occured: " + err);
+                        }
+                    );
+                } else {
+                    console.log("getUserMedia not supported");
+                }
             };
 
             $scope.recordStopEventHandler = function() {
+                mediaStream.stop();
+                localRecorder.stop();
+                localRecorder.exportWAV(function(e) {
+                    localRecorder.clear();
+                    console.log(e);
+                    saveAs(e, "file.wav");
+                    // window.Recorder.forceDownload(e);
+                });
                 recognition.stop();
             };
 

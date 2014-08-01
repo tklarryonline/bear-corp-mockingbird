@@ -12,6 +12,8 @@
     "jquery": "~2.1.1",
     "modernizr": "*",
     "requirejs": "*",
-    "FileAPI": "~2.0.5"
+    "FileAPI": "~2.0.5",
+    "Recorderjs": "*",
+    "FileSaver": "*"
   }
 }

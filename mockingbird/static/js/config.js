@@ -12,7 +12,9 @@ requirejs.config({
         'bootstrap': '/static/js/sass-bootstrap/dist/js/bootstrap',
         'FileAPI': '/static/js/FileAPI/dist/FileAPI',
         'angular-file-upload-shim': '/static/js/ng-file-upload/angular-file-upload-shim',
-        'angular-file-upload': '/static/js/ng-file-upload/angular-file-upload'
+        'angular-file-upload': '/static/js/ng-file-upload/angular-file-upload',
+        'recorder': '/static/js/Recorderjs/recorder',
+        'FileSaver': '/static/js/FileSaver/FileSaver'
         /*--insert code tag--do not remove*/
     },
     shim: {
