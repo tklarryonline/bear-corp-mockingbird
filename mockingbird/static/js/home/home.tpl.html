@@ -1,4 +1,4 @@
-<nav class='navbar navbar-inverse col-md-12' role='navigation' style='border-radius: 0px;'>
+transcription<nav class='navbar navbar-inverse col-md-12' role='navigation' style='border-radius: 0px;'>
   <div class='container-fluid'>
     <div class='navbar-header'>
       <a class='navbar-brand' href='javascript: void(0)' style='font-size: 25px;'>Mockingbird</a>
@@ -108,6 +108,31 @@
         </div>
       </div>
     </div>
+  </div>
+    
+  <div class='row'>
+    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>
+      <h2>Previous Attempts</h2>
+    </div>
+    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>
+      <table class='table' id='attempts-table'>
+        <thead>
+          <tr>
+            <th>Accuracy</th>
+            <th>Pacing</th>
+            <th>Transcription</th>
+            <th>Listen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat='speech in speeches.results' speech-directive>
+              <td>[[ speech.accuracy ]]</td>
+              <td>[[ speech.pacing ]]</td>
+              <td>[[ speech.transcription ]]</td>
+              <td><audio src="/upload/blob_8" /></td>
+          </tr>
+        </tbody>
+      </table>
   </div>
   <div class='row'>
     <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>

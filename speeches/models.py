@@ -9,6 +9,9 @@ class Speech(models.Model):
     title = models.CharField(max_length=100, blank=True, default='')
     filefield = models.FileField(upload_to='upload')
     owner = models.ForeignKey(User, related_name='speeches')
+    transcription = models.TextField()
+    accuracy = models.DecimalField(max_digits=5, decimal_places=2)
+    pacing = models.DecimalField(max_digits=5, decimal_places=2)
 
     class Meta:
         ordering = ('created',)

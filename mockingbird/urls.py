@@ -3,6 +3,9 @@ from rest_framework import routers
 from django.contrib import admin
 from accounts.views import *
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles import views
 
 admin.autodiscover()
 
@@ -25,4 +28,9 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += staticfiles_urlpatterns()
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^upload/(?P<path>.*)$', views.serve),
+    ]
 

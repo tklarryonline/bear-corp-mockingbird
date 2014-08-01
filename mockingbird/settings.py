@@ -119,6 +119,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = ( 
     os.path.join(ROOT_PROJ_PATH, 'static/'),
     os.path.join(BASE_DIR, 'accounts/static/'),
+    os.path.join(BASE_DIR, 'upload/')
 )
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -134,3 +135,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
     'PAGINATE_BY': 10
 }
+
+MEDIA_URL = '/upload/'

@@ -16,6 +16,8 @@ requirejs.config({
         'recorder': '/static/js/Recorderjs/recorder',
         'FileSaver': '/static/js/FileSaver/FileSaver',
         /*--insert code tag--do not remove*/
+        'restangular': '/static/js/restangular/dist/restangular',
+        'audiojs': '/static/js/audiojs/audio.min'
     },
     shim: {
         'angular': { exports: 'angular', deps: ['jquery', 'angular-file-upload-shim'] },
@@ -25,5 +27,6 @@ requirejs.config({
         'bootstrap': ['jquery'],
         'angular-file-upload-shim': ['FileAPI'],
         'angular-file-upload': ['angular'],
+        'restangular': ['angular']
     }/*--requirejs config copy tag--do not remove*/
 });

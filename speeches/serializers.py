@@ -30,4 +30,4 @@ class SpeechSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Speech
-        fields = ('id', 'title', 'filefield', 'owner')
+        fields = ('id', 'title', 'filefield', 'owner', 'transcription', 'accuracy', 'pacing')

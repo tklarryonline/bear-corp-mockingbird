@@ -4,10 +4,12 @@ define([
     'FileSaver',
     'lodash',
     'angular-ui-router',
+    'restangular',
     'angular-file-upload',
+    'audiojs'
 ], function(angular, Recorder) {
 
-    angular.module('homeModule', ['ui.router', 'angularFileUpload']).config(['$stateProvider',
+    angular.module('homeModule', ['ui.router', 'restangular', 'angularFileUpload']).config(['$stateProvider',
         function($stateProvider) {
             /*config path for home page*/
             $stateProvider.state('home', {
@@ -17,12 +19,20 @@ define([
                 controller: 'HomeController'
             });
         }
-    ]).controller('HomeController', [
+    ]).directive('speechDirective', function() {
+        return function(scope, element, attrs) {
+            if (scope.$last){
+                audiojs.events.ready(function() {
+                    var as = audiojs.createAll();
+                });
+            }
+        };
+    }).controller('HomeController', [
         '$scope',
         '$upload',
         '$location',
-
-        function($scope, $upload, $location) {
+        'Restangular',
+        function($scope, $upload, $location, Restangular) {
             /* initialize */
             $scope.leaderBoards = _(_.range(20)).map(function(value) {
                 var record = {};
@@ -33,7 +43,14 @@ define([
             }).sortBy(function(record) {
                 return -record.accuracy;
             }).value();
-            $scope.pageTitle = 'dummy';
+
+            /*$scope.speeches = Restangular.all("/speeches").getList().then(function(response) {
+                console.log(response);
+            });*/
+            Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
+                $scope.speeches = response;
+
+            });
 
             /*recognition webkit*/
             var recognition = new webkitSpeechRecognition();
@@ -41,9 +58,11 @@ define([
             recognition.continuous = true;
             recognition.interimResults = true;
 
+            var transcription;
             /*on result return*/
             recognition.onresult = function(event) {
-                console.log(event.results[0][0].transcript);
+                transcription = event.results[0][0].transcript;
+                console.log(transcription);
             };
 
             var mediaStream, localRecorder;
@@ -88,8 +107,20 @@ define([
                 localRecorder.exportWAV(function(e) {
                     localRecorder.clear();
                     console.log(e);
-                    saveAs(e, "file.wav");
                     // window.Recorder.forceDownload(e);
+                    var fd = new FormData();
+                    fd.append('fname', 'test.wav');
+                    fd.append('data', e);
+                    fd.append('transcription', transcription);
+                    $.ajax({
+                        type: 'POST',
+                        url: '/speeches/submit-silent/',
+                        data: fd,
+                        processData: false,
+                        contentType: false
+                    }).done(function(data) {
+                        console.log(data);
+                    });
                 });
                 recognition.stop();
             };
@@ -117,29 +148,6 @@ define([
                     // these HTTP methods do not require CSRF protection
                     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
                 }
-                /*$.ajaxSetup({
-                    beforeSend: function(xhr, settings) {
-                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                        }
-                    }
-                });
-                $.ajax({
-                    type: 'POST',
-                    beforeSend: function(request) {
-                        request.setRequestHeader('X-CSRFToken', csrftoken);
-                        request.setRequestHeader('Content-Type', submitFile.type);
-                    },
-                    url: '/speeches/',
-                    data: submitFile,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        console.log(data);
-                    },
-                    error: function(error, object) { console.log(error, object); }
-                });*/
             };
         }
     ]);

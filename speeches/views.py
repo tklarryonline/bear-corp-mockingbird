@@ -12,7 +12,29 @@ from rest_framework import status
 from django.http import Http404
 from rest_framework import generics
 from django.contrib.auth.models import User
+import time
 
+
+@csrf_exempt
+def submit_silent(request):
+    if request.method == 'POST':
+        if 'accuracy' not in request.POST:
+            request.POST['accuracy'] = 0.0
+        if 'pacing' not in request.POST:
+            request.POST['pacing'] = 0.0
+        if 'transcription' not in request.POST:
+            request.POST['transcription'] = ''
+        title = request.user.username + '_' + str(time.time()) + '_' + request.POST['fname']
+        filefield = request.FILES['data']
+        transcription = request.POST['transcription']
+        owner = request.user
+        accuracy = request.POST['accuracy']
+        pacing = request.POST['pacing']
+        speech = Speech(title=title, filefield=filefield, transcription=transcription, owner=owner,
+                accuracy=accuracy, pacing=pacing)
+        speech.save()
+
+    return HttpResponse('200')
 
 @csrf_exempt
 def submit(request):
