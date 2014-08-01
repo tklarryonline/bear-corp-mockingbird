@@ -10,10 +10,11 @@
     "angular-mocks": "*",
     "angular-ui-router": "~0.2.10",
     "angular-bootstrap": "*",
+    "ng-file-upload": "*",
     "restangular": "*",
     "jquery": "~2.1.1",
     "modernizr": "*",
-    "requirejs": "*"
+    "requirejs": "*",
+    "FileAPI": "~2.0.5"
   }
 }
-

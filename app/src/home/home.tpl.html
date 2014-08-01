@@ -61,7 +61,9 @@
               </button>
             </div>
             <div class='col-sm-12 col-md-6 col-lg-6 text-center'>
-              <button class='btn btn-info' type='button' upload='uploadEventHandler()'>Upload</button>
+              <div class='btn btn-info' data-multiple='true' ng-file-select='uploadEventHandler($files)'>
+                Upload
+              </div>
             </div>
           </div>
         </div>

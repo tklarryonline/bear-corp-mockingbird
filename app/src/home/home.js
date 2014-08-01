@@ -1,5 +1,5 @@
-define(['angular', 'lodash', 'angular-ui-router'], function(angular) {
-    angular.module('homeModule', ['ui.router']).config(['$stateProvider',
+define(['angular', 'lodash', 'angular-ui-router', 'angular-file-upload'], function(angular) {
+    angular.module('homeModule', ['ui.router', 'angularFileUpload']).config(['$stateProvider',
         function($stateProvider) {
             /*config path for home page*/
             $stateProvider.state('home', {
@@ -41,8 +41,9 @@ define(['angular', 'lodash', 'angular-ui-router'], function(angular) {
                 recognition.stop();
             };
 
-            $scope.uploadEventHandler = function() {
-                console.log("upload");
+            $scope.uploadEventHandler = function($files) {
+                var submitFile = _.first($files);
+                console.log(submitFile);
             };
         }
     ]);

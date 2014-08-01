@@ -16,7 +16,6 @@ requirejs.config({
     // Karma serves files from '/app'
     baseUrl: 'base/app/src',
 
-    // configurations
     paths: {
         'angular': '../bower_components/angular/angular',
         /*require angular mocks for testing*/
@@ -32,16 +31,22 @@ requirejs.config({
         /*require lodash library [http://lodash.com/docs]*/
         'lodash': '../bower_components/lodash/dist/lodash',
         /*require bootstrap.js to make bootstrap components work*/
-        'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap'
+        'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
+        'FileAPI': '../bower_components/FileAPI/dist/FileAPI',
+        'angular-file-upload-shim': '../bower_components/ng-file-upload/angular-file-upload-shim',
+        'angular-file-upload': '../bower_components/ng-file-upload/angular-file-upload'
+        /*--insert code tag--do not remove*/
     },
     shim: {
-        'angular': { exports: 'angular', deps: ['jquery'] },
-        'anuglar-mocks': ['angular'],
+        'angular': { exports: 'angular', deps: ['jquery', 'angular-file-upload-shim'] },
+        'angular-mocks': ['angular'],
         'lodash': { exports: '_' },
         'angular-resource': ['angular'],
         'angular-ui-router': ['angular'],
         'ui-bootstrap-tpls': ['angular'],
-        'bootstrap': ['jquery']
+        'bootstrap': ['jquery'],
+        'angular-file-upload-shim': ['FileAPI'],
+        'angular-file-upload': ['angular']
     },
 
     // ask Require.js to load these files (all our tests)

@@ -41,7 +41,8 @@
                 "ng-click" => "showRecordingPanel = !showRecordingPanel"}
                 {{!showRecordingPanel && 'Start recording' || 'x'}}
             .col-sm-12.col-md-6.col-lg-6.text-center
-              %button.btn.btn-info{"type" => "button", "upload" => "uploadEventHandler()"} Upload
+              .btn.btn-info{"ng-file-select" => "uploadEventHandler($files)", "data-multiple" => "true"}
+                Upload
 
   .row{"ng-show" => "showRecordingPanel"}
     .col-sm-12.col-md-12.col-lg-8.col-lg-offset-2.text-center{"style" => "margin-top: 20px;"}
