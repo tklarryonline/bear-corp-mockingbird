@@ -61,7 +61,6 @@ module.exports = function(grunt) {
                     '<%= yeoman.app %>/src/{,*/}*.js',
                     '!<%= yeoman.app %>/src/{,*/}*.spec.js'
                 ],
-                tasks: ['jshint'],
                 options: { livereload: true }
             },
             requirejsConfig: {
