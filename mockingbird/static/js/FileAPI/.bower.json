@@ -1,0 +1,14 @@
+{
+  "name": "FileAPI",
+  "homepage": "https://github.com/mailru/FileAPI",
+  "version": "2.0.5",
+  "_release": "2.0.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.0.5",
+    "commit": "b24d7d8ffe3346c7f590df24b1b7bab515307d5e"
+  },
+  "_source": "git://github.com/mailru/FileAPI.git",
+  "_target": "~2.0.5",
+  "_originalSource": "FileAPI"
+}
