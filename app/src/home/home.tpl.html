@@ -1,48 +1,69 @@
-<div class='container-fluid'>
-  <div class='row'>
-    <nav class='navbar navbar-inverse col-md-12' role='navigation'>
-      <div class='container-fluid'>
-        <div class='navbar-header'>
-          <a class='navbar-brand' href='#'>Mockingbird</a>
-        </div>
-        <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
-          <ul class='nav navbar-nav navbar-right'>
+<nav class='navbar navbar-inverse col-md-12' role='navigation'>
+  <div class='container-fluid'>
+    <div class='navbar-header'>
+      <a class='navbar-brand' href='#'>Mockingbird</a>
+    </div>
+    <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
+      <ul class='nav navbar-nav navbar-right'>
+        <li>
+          <a href='#'>Link</a>
+        </li>
+        <li class='dropdown'>
+          <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+            Dropdown
+            <span class='caret'></span>
+          </a>
+          <ul class='dropdown-menu' role='menu'>
             <li>
-              <a href='#'>Link</a>
+              <a href='#'>Action</a>
             </li>
-            <li class='dropdown'>
-              <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-                Dropdown
-                <span class='caret'></span>
-              </a>
-              <ul class='dropdown-menu' role='menu'>
-                <li>
-                  <a href='#'>Action</a>
-                </li>
-                <li>
-                  <a href='#'>Another action</a>
-                </li>
-                <li>
-                  <a href='#'>Something else here</a>
-                </li>
-                <li class='divider'></li>
-                <li>
-                  <a href='#'>Separated link</a>
-                </li>
-              </ul>
+            <li>
+              <a href='#'>Another action</a>
+            </li>
+            <li>
+              <a href='#'>Something else here</a>
+            </li>
+            <li class='divider'></li>
+            <li>
+              <a href='#'>Separated link</a>
             </li>
           </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container-fluid -->
-    </nav>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
+</nav>
 <div class='container'>
   <div class='row'>
-    <div class='col-sm-12 col-md-12'>
-      <button ng-click='recordButton()'>Record</button>
+    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 text-center'>
+      <h1>Mockingbird.vn</h1>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>
+      <div class='row'>
+        <div class='col-sm-12 col-md-5 col-lg-4'>
+          <p style='font-size: 20px;'>Challenge</p>
+        </div>
+        <img alt='sample file' class='col-sm-12 col-md-7 col-lg-8' src='http://electro35band.com/wp-content/uploads/2013/01/audio.jpg'>
+      </div>
+    </div>
+    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2' style='margin-top: 20px;'>
+      <div class='row'>
+        <div class='col-sm-12 col-md-5 col-lg-4'>
+          <p style='font-size: 20px;'>Submit</p>
+        </div>
+        <div class='col-sm-12 col-md-6 col-lg-6 text-center'>
+          <div class='row'>
+            <div class='col-sm-12 col-md-6 col-lg-6 text-left'>
+              <button class='btn btn-info' ng-click='recordEventHandler()' type='button'>Rec</button>
+            </div>
+            <div class='col-sm-12 col-md-6 col-lg-6 text-left'>
+              <button class='btn btn-info' type='button' upload='uploadEventHandler()'>Upload</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

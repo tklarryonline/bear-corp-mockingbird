@@ -1,30 +1,42 @@
-.container-fluid
-  .row
-    %nav.navbar.navbar-inverse.col-md-12{role: "navigation"}
-      .container-fluid
-        .navbar-header
-          %a.navbar-brand{href: "#"} Mockingbird
-        #bs-example-navbar-collapse-1.collapse.navbar-collapse
-          %ul.nav.navbar-nav.navbar-right
+%nav.navbar.navbar-inverse.col-md-12{role: "navigation"}
+  .container-fluid
+    .navbar-header
+      %a.navbar-brand{href: "#"} Mockingbird
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      %ul.nav.navbar-nav.navbar-right
+        %li
+          %a{href: "#"} Link
+        %li.dropdown
+          %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+            Dropdown
+            %span.caret
+          %ul.dropdown-menu{role: "menu"}
             %li
-              %a{href: "#"} Link
-            %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-                Dropdown
-                %span.caret
-              %ul.dropdown-menu{role: "menu"}
-                %li
-                  %a{href: "#"} Action
-                %li
-                  %a{href: "#"} Another action
-                %li
-                  %a{href: "#"} Something else here
-                %li.divider
-                %li
-                  %a{href: "#"} Separated link
-        / /.navbar-collapse
-      / /.container-fluid
+              %a{href: "#"} Action
+            %li
+              %a{href: "#"} Another action
+            %li
+              %a{href: "#"} Something else here
+            %li.divider
+            %li
+              %a{href: "#"} Separated link
 .container
   .row
-    .col-sm-12.col-md-12
-      %button{"ng-click" => "recordButton()"} Record
+    .col-sm-12.col-md-12.col-lg-8.col-lg-offset-2.text-center
+      %h1 Mockingbird.vn
+  .row
+    .col-sm-12.col-md-12.col-lg-8.col-lg-offset-2
+      .row
+        .col-sm-12.col-md-5.col-lg-4
+          %p{"style" => "font-size: 20px;"} Challenge
+        %img.col-sm-12.col-md-7.col-lg-8{"alt" => "sample file", "src" => "http://electro35band.com/wp-content/uploads/2013/01/audio.jpg"}
+    .col-sm-12.col-md-12.col-lg-8.col-lg-offset-2{"style" => "margin-top: 20px;"}
+      .row
+        .col-sm-12.col-md-5.col-lg-4
+          %p{"style" => "font-size: 20px;"} Submit
+        .col-sm-12.col-md-6.col-lg-6.text-center
+          .row
+            .col-sm-12.col-md-6.col-lg-6.text-left
+              %button.btn.btn-info{"type" => "button", "ng-click" => "recordEventHandler()"} Rec
+            .col-sm-12.col-md-6.col-lg-6.text-left
+              %button.btn.btn-info{"type" => "button", "upload" => "uploadEventHandler()"} Upload

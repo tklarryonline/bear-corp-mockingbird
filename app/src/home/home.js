@@ -27,13 +27,17 @@ define(['angular', 'angular-ui-router'], function(angular) {
                 console.log(event.results[0][0].transcript);
             };
 
-            $scope.recordButton = function() {
+            $scope.recordEventHandler = function() {
                 recognitionInit = !recognitionInit;
                 if (recognitionInit) {
                     recognition.start();
                 } else {
                     recognition.stop();
                 }
+            };
+
+            $scope.uploadEventHandler = function() {
+                console.log("upload");
             };
         }
     ]);
