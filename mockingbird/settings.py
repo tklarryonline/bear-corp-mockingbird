@@ -32,6 +32,7 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_DIRS = (
     os.path.join(ROOT_PROJ_PATH, 'templates'),
+    os.path.join(BASE_DIR, 'accounts/templates')
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -59,6 +60,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'mockingbird_api',
+    'accounts'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -113,7 +115,8 @@ USE_TZ = True
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = ( 
-    os.path.join(ROOT_PROJ_PATH, 'static/'),
+    os.path.join(ROOT_PROJ_PATH, 'static'),
+    os.path.join(BASE_DIR, 'accounts/static'),
 )
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
