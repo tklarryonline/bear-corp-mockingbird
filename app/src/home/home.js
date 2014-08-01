@@ -21,10 +21,12 @@ define(['angular', 'angular-ui-router'], function(angular) {
             recognition.lang = "en-GB";
             recognition.continuous = true;
             recognition.interimResults = true;
+
             /*on result return*/
             recognition.onresult = function(event) {
                 console.log(event.results[0][0].transcript);
-            }
+            };
+
             $scope.recordButton = function() {
                 recognitionInit = !recognitionInit;
                 if (recognitionInit) {
