@@ -60,7 +60,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'mockingbird_api',
-    'accounts'
+    'accounts', 
+    'speeches',
+    'south'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -118,10 +120,13 @@ STATICFILES_DIRS = (
     os.path.join(ROOT_PROJ_PATH, 'static/'),
     os.path.join(BASE_DIR, 'accounts/static/'),
 )
-print STATICFILES_DIRS
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+FILE_UPLOAD_HANDLERS = (
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
 )
 
 # REST

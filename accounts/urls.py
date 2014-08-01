@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-urlpatterns = patterns('accounts.views',
-    url(r'^profile', 'profile')
+urlpatterns = patterns('',
+    url(r'^profile', 'accounts.views.profile'),
+    url(r'^speeches', 'speeches.views.upload_file')
 )
