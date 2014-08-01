@@ -122,21 +122,23 @@ define([
                         }
                     }
                 });
-                $upload.upload({
-                    url: "/speeches/dummy",
-                    method: "POST",
-                    headers: {'Content-Type': 'text/plain'},
-                    data: {
-                        title: "Hello world",
-                        owner: 1,
-                        filefield: submitFile
+                $.ajax({
+                    type: 'POST',
+                    beforeSend: function(request) {
+                        request.setRequestHeader('X-CSRFToken', csrftoken);
+                        request.setRequestHeader('Content-Type', submitFile.type);
                     },
-                    file: submitFile
-                }).success(function(data, status, headers, config) {
-                    console.log(data);
-                }).xhr(function(xhr) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    url: '/speeches/dummy',
+                    data: submitFile,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(error, object) { console.log(error, object); }
                 });
+
             };
         }
     ]);

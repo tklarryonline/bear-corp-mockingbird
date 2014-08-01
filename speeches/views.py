@@ -13,6 +13,7 @@ from django.http import Http404
 from rest_framework import generics
 from django.contrib.auth.models import User
 
+@csrf_exempt
 def dummy(request):
     print request
     return HttpResponse(str(request))
