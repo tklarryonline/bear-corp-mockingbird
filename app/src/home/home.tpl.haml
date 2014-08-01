@@ -29,7 +29,7 @@
       .row
         .col-sm-12.col-md-5.col-lg-4
           %p{"style" => "font-size: 20px;"} Challenge
-        -#%img.col-sm-12.col-md-7.col-lg-8{"alt" => "sample file", "src" => "http://electro35band.com/wp-content/uploads/2013/01/audio.jpg"}
+        %img.col-sm-12.col-md-7.col-lg-8{"alt" => "sample file", "src" => "http://electro35band.com/wp-content/uploads/2013/01/audio.jpg"}
     .col-sm-12.col-md-12.col-lg-8.col-lg-offset-2{"style" => "margin-top: 20px;"}
       .row
         .col-sm-12.col-md-5.col-lg-4
@@ -43,10 +43,10 @@
             .col-sm-12.col-md-6.col-lg-6.text-center
               %button.btn.btn-info{"type" => "button", "upload" => "uploadEventHandler()"} Upload
 
-  .row{"ng-class" => "{'hide': !showRecordingPanel}"}
+  .row{"ng-show" => "showRecordingPanel"}
     .col-sm-12.col-md-12.col-lg-8.col-lg-offset-2.text-center{"style" => "margin-top: 20px;"}
       %p.lead Start Recording
-    -#%img.col-sm-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3{"alt" => "sample file", "src" => "http://electro35band.com/wp-content/uploads/2013/01/audio.jpg"}
+    %img.col-sm-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3{"alt" => "sample file", "src" => "http://electro35band.com/wp-content/uploads/2013/01/audio.jpg"}
     .col-sm-12.col-md-12.col-lg-8.col-lg-offset-2.text-center{"style" => "margin-top: 20px;"}
       %button.btn.btn-default{"type" => "button", "ng-click" => "recordStartEventHandler()"}
         Start
