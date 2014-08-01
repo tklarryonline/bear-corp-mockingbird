@@ -54,3 +54,4 @@ docs/_build/
 
 .sass-cache
 node_modules
+app/bower_components
