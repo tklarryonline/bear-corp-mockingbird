@@ -13,13 +13,13 @@ define(['angular', 'lodash', 'angular-ui-router'], function(angular) {
         '$location',
         function($scope, $location) {
             /* initialize */
-            $scope.leaderBoards = _.range(20).map(function(value) {
+            $scope.leaderBoards = _(_.range(20)).map(function(value) {
                 var record = {};
                 record.accuracy = Math.round(Math.random(100) * value);
                 record.mood     = "Excited";
                 record.userVote = value;
                 return record;
-            });
+            }).sortBy(function(record) { return -record.accuracy; }).value();
             $scope.pageTitle = 'dummy';
 
             /*recognition webkit*/
