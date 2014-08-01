@@ -3,95 +3,71 @@
     <div class='navbar-header'>
       <a class='navbar-brand' href='javascript: void(0)' style='font-size: 25px;'>Mockingbird</a>
     </div>
-    <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
-      <ul class='nav navbar-nav navbar-right'>
-        <li>
-          Username goes here
-        </li>
-        <li class='dropdown'>
-          <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-            Dropdown
-            <span class='caret'></span>
-          </a>
-          <ul class='dropdown-menu' role='menu'>
-            <li>
-              <a href='#'>Action</a>
-            </li>
-            <li>
-              <a href='#'>Another action</a>
-            </li>
-            <li>
-              <a href='#'>Something else here</a>
-            </li>
-            <li class='divider'></li>
-            <li>
-              <a href='#'>Separated link</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
   </div>
 </nav>
 <div class='container'>
   <div class='row'>
     <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 text-center'>
-      <h1>Mockingbird</h1>
+      <h1>Mockingbird Challenge</h1>
     </div>
   </div>
+  
   <div class='row'>
-    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>
-      <div class='row'>
-        <div class='col-sm-12 col-md-5 col-lg-4'>
-          <p style='font-size: 20px;'>Challenge</p>
-        </div>
-        <img alt='sample file' class='col-sm-12 col-md-7 col-lg-8' src='http://electro35band.com/wp-content/uploads/2013/01/audio.jpg'>
-      </div>
+    <div class='row center'>
+      <img alt='sample file' class='col-sm-12 col-md-8 col-md-offset-2 col-lg-8' src='http://electro35band.com/wp-content/uploads/2013/01/audio.jpg'>
     </div>
-    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2' style='margin-top: 20px;'>
-      <div class='row'>
-        <div class='col-sm-12 col-md-5 col-lg-4'>
-          <p style='font-size: 20px;'>Submit</p>
+    <div class='row center' style='margin-top: 20px;'>
+      <h3>Submission</h3>
+    </div>
+    <div class='row center'>
+      <button class='btn btn-info' data-toggle="modal" data-target="#recording-modal" type='button'>
+        Start Recording
+      </button>
+      <span>&nbsp;or&nbsp;</span>
+      <div class='btn btn-info upload-btn-binding' ng-click='bindFileUploadClick()'>
+        Upload Record
+      </div>
+      <form class="hide" id="fileupload" enctype="multipart/form-data" action="/speeches/submit/" method="POST">
+          <input type="file" name="audio" id="uploader" />
+          <input type="text" name="title" id="title" />
+          <input type="submit" value="submit">
+      </form>
+    </div>
+  </div>
+
+  <!-- Recording Modal -->
+  <div class="modal fade" id="recording-modal" tabindex="-1" role="dialog" aria-labelledby="recording-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="recording-modal-label">Start Recording</h4>
         </div>
-        <div class='col-sm-12 col-md-6 col-lg-6 text-center'>
-          <div class='row'>
-            <div class='col-sm-12 col-md-6 col-lg-6 text-center'>
-              <button class='btn btn-info' ng-click='showRecordingPanel = !showRecordingPanel' ng-init='showRecordingPanel = false' type='button'>
-                [[!showRecordingPanel && 'Start recording' || 'x']]
+
+        <div class="modal-body">
+          <div class="row">
+            <img alt='sample file' class='col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3' src='http://electro35band.com/wp-content/uploads/2013/01/audio.jpg'>
+            <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 text-center' style='margin-top: 20px;'>
+              <button class='btn btn-default' ng-click='recordStartEventHandler()' type='button'>
+                Start
+                <i class='fa fa-play'></i>
               </button>
-            </div>
-            <div class='col-sm-12 col-md-6 col-lg-6 text-center'>
-              <div class='btn btn-info' ng-file-select='uploadEventHandler($files)'>
-                Upload
-              </div>
-              <form enctype="multipart/form-data" action="/speeches/submit/" method="POST">
-                  <input type="file" name="audio" />
-                  <label>Title</label>
-                  <input type="text" name="title" id="title" />
-                  <input type="submit" value="submit">
-              </form>
+              <button class='btn btn-default' ng-click='recordStopEventHandler()' type='button'>
+                Stop
+                <i class='fa fa-stop'></i>
+              </button>
             </div>
           </div>
         </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
   </div>
-  <div class='row' ng-show='showRecordingPanel'>
-    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 text-center' style='margin-top: 20px;'>
-      <p class='lead'>Start Recording</p>
-    </div>
-    <img alt='sample file' class='col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3' src='http://electro35band.com/wp-content/uploads/2013/01/audio.jpg'>
-    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 text-center' style='margin-top: 20px;'>
-      <button class='btn btn-default' ng-click='recordStartEventHandler()' type='button'>
-        Start
-        <i class='fa fa-play'></i>
-      </button>
-      <button class='btn btn-default' ng-click='recordStopEventHandler()' type='button'>
-        Stop
-        <i class='fa fa-stop'></i>
-      </button>
-    </div>
-  </div>
+
   <div class='row'>
     <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>
       <div class='row text-center'>

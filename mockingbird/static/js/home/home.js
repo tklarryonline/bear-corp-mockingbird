@@ -141,6 +141,15 @@ define([
                     error: function(error, object) { console.log(error, object); }
                 });*/
             };
+
+            $scope.bindFileUploadClick = function() {
+                var $fileUploader = $("#fileupload #uploader");
+                $fileUploader.click();
+                $fileUploader.change(function() {
+                    var filename = $fileUploader[0].files[0].name;
+                    $("#fileupload #title").val(filename);
+                });
+            }
         }
     ]);
 });
