@@ -144,12 +144,19 @@ define([
 
             $scope.bindFileUploadClick = function() {
                 var $fileUploader = $("#fileupload #uploader");
+                var $uploadConfirmModal = $("#upload-confirm-modal");
                 $fileUploader.click();
                 $fileUploader.change(function() {
                     var filename = $fileUploader[0].files[0].name;
                     $("#fileupload #title").val(filename);
+                    $uploadConfirmModal.find("span.label-file-name").html(filename);
+                    $uploadConfirmModal.modal();
                 });
-            }
+            };
+
+            $scope.submitFileUploadForm = function() {
+                $("#fileupload").submit();
+            };
         }
     ]);
 });
