@@ -16,7 +16,6 @@ requirejs.config({
     // Karma serves files from '/app'
     baseUrl: 'base/app/src',
 
-    // configurations
     paths: {
         'angular': '../bower_components/angular/angular',
         /*require angular mocks for testing*/
@@ -32,11 +31,14 @@ requirejs.config({
         /*require lodash library [http://lodash.com/docs]*/
         'lodash': '../bower_components/lodash/dist/lodash',
         /*require bootstrap.js to make bootstrap components work*/
-        'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap'
+        'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
+      'recorder': '../bower_components/Recorderjs/recorder',
+      'saver': '../bower_components/FileSaver/FileSaver'
+        /*--insert code tag--do not remove*/
     },
     shim: {
         'angular': { exports: 'angular', deps: ['jquery'] },
-        'anuglar-mocks': ['angular'],
+        'angular-mocks': ['angular'],
         'lodash': { exports: '_' },
         'angular-resource': ['angular'],
         'angular-ui-router': ['angular'],

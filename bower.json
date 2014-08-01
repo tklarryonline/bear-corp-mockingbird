@@ -13,7 +13,9 @@
     "restangular": "*",
     "jquery": "~2.1.1",
     "modernizr": "*",
-    "requirejs": "*"
+    "requirejs": "*",
+    "recorder.js": "~1.1.2",
+    "Recorderjs": "*",
+    "FileSaver": "*"
   }
 }
-

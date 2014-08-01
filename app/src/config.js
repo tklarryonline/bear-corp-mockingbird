@@ -15,7 +15,9 @@ requirejs.config({
         /*require lodash library [http://lodash.com/docs]*/
         'lodash': '../bower_components/lodash/dist/lodash',
         /*require bootstrap.js to make bootstrap components work*/
-        'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap'
+        'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
+      'recorder': '../bower_components/Recorderjs/recorder',
+      'saver': '../bower_components/FileSaver/FileSaver'
         /*--insert code tag--do not remove*/
     },
     shim: {

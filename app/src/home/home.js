@@ -1,4 +1,4 @@
-define(['angular', 'lodash', 'angular-ui-router'], function(angular) {
+define(['angular', 'recorder', 'lodash', 'angular-ui-router', 'saver'], function(angular, Recorder, _) {
     angular.module('homeModule', ['ui.router']).config(['$stateProvider',
         function($stateProvider) {
             /*config path for home page*/
@@ -35,9 +35,56 @@ define(['angular', 'lodash', 'angular-ui-router'], function(angular) {
 
             $scope.recordStartEventHandler = function() {
                 recognition.start();
+
+              navigator.getUserMedia = ( navigator.getUserMedia ||
+                       navigator.webkitGetUserMedia ||
+                       navigator.mozGetUserMedia ||
+                       navigator.msGetUserMedia);
+
+              if (navigator.getUserMedia) {
+                navigator.getUserMedia (
+
+                  // constraints
+                  {
+                    audio: true
+                  },
+
+                  // successCallback
+                  function(localMediaStream) {
+                    var video = document.querySelector('video');
+                    video.src = window.URL.createObjectURL(localMediaStream);
+                    // video.play();
+                    window.a = localMediaStream;
+                    // Do something with the video here, e.g. video.play()
+
+                    var context = new webkitAudioContext();
+                    var mediaStreamSource = context.createMediaStreamSource(localMediaStream);                    
+                    var rec = new window.Recorder(mediaStreamSource);
+                    rec.record();
+                    console.log(rec);
+                    window.rec = rec;
+                    window.a = localMediaStream;
+                  },
+
+                  // errorCallback
+                  function(err) {
+                    console.log("The following error occured: " + err);
+                  }
+                );
+              } else {
+                console.log("getUserMedia not supported");
+              }
             };
 
             $scope.recordStopEventHandler = function() {
+              window.a.stop();
+              window.rec.stop();
+              window.rec.exportWAV(function(e) {
+                window.rec.clear();
+                console.log(e);
+                saveAs(e, "aaa.wav");
+                // window.Recorder.forceDownload(e);
+              });
                 recognition.stop();
             };
 
