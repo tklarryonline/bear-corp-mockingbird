@@ -7,11 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Boilerplate for Django-based Angular webapp on Google App Engine">
 <meta name="author" content="Lim">
-<title>Boilerplate for Django-based Angular webapp on Google App Engine</title>
-<link rel="stylesheet" href="{% static 'ta/css/bootstrap.css' %}">
-<link rel="stylesheet" href="{% static 'ta/css/jquery-ui.css' %}">
-<link rel="stylesheet" href="{% static 'ta/css/center.css' %}">
-<link rel="stylesheet" href="{% static 'ta/css/style.css' %}">
+<title>Mocking Bird</title>
+<script type="text/javascript" src="{% static 'js/jquery/dist/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/angular/angular.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
     <script src="{% static 'js/html5shiv.js' %}></script>
@@ -20,13 +19,16 @@
 </head>
 <body>
 <div class="container"> 
-    <h1> Welcome to Django/Angular Boilerplate on GAE</h1>
-    <ng-view>
-    {% block main_content %}
-    {% endblock %}
-    </ng-view>
-    {% block scripts %}
-    {% endblock %}
+<div>
+    <div>
+        <label>Name:</label>
+        <input type="text" ng-model="yourName" placeholder="Enter a name here">
+        <hr>
+        <h1>Hello [[ yourName ]]!</h1>
+    </div>
+</div>
+{% block scripts %}
+{% endblock %}
 </div>
 </body>
 </html>
