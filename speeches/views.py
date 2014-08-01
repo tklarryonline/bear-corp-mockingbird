@@ -11,12 +11,40 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from rest_framework import generics
+from django.contrib.auth.models import User
 
+def dummy(request):
+    print request
+    return HttpResponse(str(request))
+
+class JSONResponse(HttpResponse):
+    """
+    An HttpResponse that renders its content into JSON.
+    """
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
+        
 class SpeechesList(generics.ListCreateAPIView):
     queryset = Speech.objects.all()
     serializer_class = SpeechSerializer
+
+    @csrf_exempt
+    def dispatch(self, *args, **kwargs):
+        return super(SpeechesList, self).dispatch(*args, **kwargs)
+
     def pre_save(self, obj):
         obj.owner = self.request.user
+
+    def post(self, obj):
+        #data = JSONParser().parse(self.request.DATA)
+        serializer = SpeechSerializer(data=self.request.DATA)
+        print serializer
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data, status=201)
+        return JSONResponse(serializer.errors, status=400)
 
 class SpeechDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Speech.objects.all()

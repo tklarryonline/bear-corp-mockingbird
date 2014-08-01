@@ -26,7 +26,7 @@ from speeches.models import Speech
 
 class SpeechSerializer(serializers.ModelSerializer):
 
-    owner = serializers.Field(source='owner.username')
+    owner = serializers.PrimaryKeyRelatedField(source='owner')
 
     class Meta:
         model = Speech

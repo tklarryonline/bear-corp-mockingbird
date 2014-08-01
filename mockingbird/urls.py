@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     
-    url(r'^$', 'mockingbird_api.views.api_root'),
+    url(r'^api/$', 'mockingbird_api.views.api_root'),
     # Account
     url(r'^accounts/', include('accounts.urls')),
     url(r'^users/$', UserList.as_view(), name='users-list'),

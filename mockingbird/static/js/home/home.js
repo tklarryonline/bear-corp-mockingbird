@@ -94,16 +94,48 @@ define([
             $scope.uploadEventHandler = function($files) {
                 var submitFile = _.first($files);
                 console.log(submitFile);
-
+                // using jQuery
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+                var csrftoken = getCookie('csrftoken');
+                function csrfSafeMethod(method) {
+                    // these HTTP methods do not require CSRF protection
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                }
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                    }
+                });
                 $upload.upload({
-                    url: "/api/v1/upload",
+                    url: "/speeches/dummy",
                     method: "POST",
+                    headers: {'Content-Type': 'text/plain'},
                     data: {
-                        transcript: "Hello world"
+                        title: "Hello world",
+                        owner: 1,
+                        filefield: submitFile
                     },
                     file: submitFile
                 }).success(function(data, status, headers, config) {
-                    console.log(data, status);
+                    console.log(data);
+                }).xhr(function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 });
             };
         }
