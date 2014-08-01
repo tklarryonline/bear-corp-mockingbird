@@ -10,8 +10,9 @@ define(['angular', 'lodash', 'angular-ui-router', 'angular-file-upload'], functi
         }
     ]).controller('HomeController', [
         '$scope',
+        '$upload',
         '$location',
-        function($scope, $location) {
+        function($scope, $upload, $location) {
             /* initialize */
             $scope.leaderBoards = _(_.range(20)).map(function(value) {
                 var record = {};
@@ -44,6 +45,17 @@ define(['angular', 'lodash', 'angular-ui-router', 'angular-file-upload'], functi
             $scope.uploadEventHandler = function($files) {
                 var submitFile = _.first($files);
                 console.log(submitFile);
+
+                $upload.upload({
+                    url: "/api/v1/upload",
+                    method: "POST",
+                    data: {
+                        transcript: "Hello world"
+                    },
+                    file: submitFile
+                }).success(function(data, status, headers, config) {
+                    console.log(data, status);
+                });
             };
         }
     ]);
