@@ -22,14 +22,8 @@ define([
         '$scope',
         '$upload',
         '$location',
-        function($scope, $upload, $location) {
-            
-           /*$('#fileupload').fileupload({
-                done: function (e, data) {
-                    console.log(data.result);
-                }
-            });*/
 
+        function($scope, $upload, $location) {
             /* initialize */
             $scope.leaderBoards = _(_.range(20)).map(function(value) {
                 var record = {};
@@ -103,7 +97,6 @@ define([
 
             $scope.uploadEventHandler = function($files) {
                 var submitFile = _.first($files);
-                console.log(submitFile);
                 // using jQuery
                 function getCookie(name) {
                     var cookieValue = null;
