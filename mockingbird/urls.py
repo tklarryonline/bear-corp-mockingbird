@@ -21,7 +21,10 @@ urlpatterns = patterns('mockingbird',
     url(r'^', include(router.urls)),
 
     # Account
-    url(r'^accounts/', include('accounts.urls'))
+    url(r'^accounts/', include('accounts.urls')),
+
+    # Speeches
+    url(r'^speeches/', include('speeches.urls')),
 )
 
 urlpatterns += staticfiles_urlpatterns()
