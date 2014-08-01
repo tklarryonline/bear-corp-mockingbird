@@ -13,6 +13,18 @@ from django.http import Http404
 from rest_framework import generics
 from django.contrib.auth.models import User
 
+
+@csrf_exempt
+def submit(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        filefield = request.FILES['audio']
+        owner = request.user
+        speech = Speech(title=title, filefield=filefield, owner=owner)
+        speech.save()
+
+    return HttpResponse('200')
+
 @csrf_exempt
 def dummy(request):
     print request
@@ -38,14 +50,18 @@ class SpeechesList(generics.ListCreateAPIView):
     def pre_save(self, obj):
         obj.owner = self.request.user
 
+    @csrf_exempt
     def post(self, obj):
         #data = JSONParser().parse(self.request.DATA)
-        serializer = SpeechSerializer(data=self.request.DATA)
-        print serializer
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        return JSONResponse(serializer.errors, status=400)
+        #serializer = SpeechSerializer(data=self.request.DATA)
+        #print serializer
+        #if serializer.is_valid():
+        #    serializer.save()
+        #    return JSONResponse(serializer.data, status=201)
+        #return JSONResponse(serializer.errors, status=400)
+        #print self.request.META
+        #return HttpResponse(str(self.request))
+        return HttpResponse('ads')
 
 class SpeechDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Speech.objects.all()

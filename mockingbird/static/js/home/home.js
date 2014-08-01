@@ -4,14 +4,17 @@ define([
     'FileSaver',
     'lodash',
     'angular-ui-router',
-    'angular-file-upload'
+    'angular-file-upload',
+    'upload',
 ], function(angular, Recorder) {
+
     angular.module('homeModule', ['ui.router', 'angularFileUpload']).config(['$stateProvider',
         function($stateProvider) {
             /*config path for home page*/
             $stateProvider.state('home', {
                 url: '/',
                 templateUrl: '/static/js/home/home.tpl.html',
+                //templateUrl: '/accounts/profile/home/',
                 controller: 'HomeController'
             });
         }
@@ -20,6 +23,13 @@ define([
         '$upload',
         '$location',
         function($scope, $upload, $location) {
+            
+           /*$('#fileupload').fileupload({
+                done: function (e, data) {
+                    console.log(data.result);
+                }
+            });*/
+
             /* initialize */
             $scope.leaderBoards = _(_.range(20)).map(function(value) {
                 var record = {};
@@ -115,7 +125,7 @@ define([
                     // these HTTP methods do not require CSRF protection
                     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
                 }
-                $.ajaxSetup({
+                /*$.ajaxSetup({
                     beforeSend: function(xhr, settings) {
                         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                             xhr.setRequestHeader("X-CSRFToken", csrftoken);
@@ -128,7 +138,7 @@ define([
                         request.setRequestHeader('X-CSRFToken', csrftoken);
                         request.setRequestHeader('Content-Type', submitFile.type);
                     },
-                    url: '/speeches/dummy',
+                    url: '/speeches/',
                     data: submitFile,
                     processData: false,
                     contentType: false,
@@ -137,8 +147,7 @@ define([
                         console.log(data);
                     },
                     error: function(error, object) { console.log(error, object); }
-                });
-
+                });*/
             };
         }
     ]);

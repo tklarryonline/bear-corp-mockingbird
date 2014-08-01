@@ -14,8 +14,11 @@ requirejs.config({
         'angular-file-upload-shim': '/static/js/ng-file-upload/angular-file-upload-shim',
         'angular-file-upload': '/static/js/ng-file-upload/angular-file-upload',
         'recorder': '/static/js/Recorderjs/recorder',
-        'FileSaver': '/static/js/FileSaver/FileSaver'
+        'FileSaver': '/static/js/FileSaver/FileSaver',
         /*--insert code tag--do not remove*/
+        'upload': '/static/js/upload/jquery.fileupload',
+        'iframe-transport': '/static/js/upload/jquery.iframe-transport',
+        'jquery.ui.widget': '/static/js/upload/jquery.ui.widget'
     },
     shim: {
         'angular': { exports: 'angular', deps: ['jquery', 'angular-file-upload-shim'] },
@@ -24,6 +27,8 @@ requirejs.config({
         'ui-bootstrap-tpls': ['angular'],
         'bootstrap': ['jquery'],
         'angular-file-upload-shim': ['FileAPI'],
-        'angular-file-upload': ['angular']
+        'angular-file-upload': ['angular'],
+        'iframe-transport': ['jquery'],
+        'upload': ['iframe-transport', 'jquery.ui.widget']
     }/*--requirejs config copy tag--do not remove*/
 });
