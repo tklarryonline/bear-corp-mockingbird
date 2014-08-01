@@ -20,19 +20,37 @@ define([
             });
         }
     ]).directive('speechDirective', function() {
-        return function(scope, element, attrs) {
+        return {
+            scope: { sp:'=', index:'=', length:'=' },
+            link: function(scope, elems) {
+                console.log(scope);
+                elems.find('audio').attr('src', '/' + scope.sp);
+                if (scope.index == scope.length-1) {
+                    audiojs.events.ready(function() {
+                        var as = audiojs.createAll();
+                    });
+                }
+                /*if (scope.$last){
+                    audiojs.events.ready(function() {
+                        var as = audiojs.createAll();
+                    });
+                }*/
+            }
+        };
+        /*return function(scope, element, attrs) {
+            element.find('audio').attr(src, '');
             if (scope.$last){
                 audiojs.events.ready(function() {
                     var as = audiojs.createAll();
                 });
             }
-        };
+        };*/
     }).controller('HomeController', [
         '$scope',
         '$upload',
         '$location',
         'Restangular',
-        function($scope, $upload, $location, Restangular) {
+        function($scope, $upload, $location, Restangular, $sce) {
             /* initialize */
             $scope.leaderBoards = _(_.range(20)).map(function(value) {
                 var record = {};
@@ -48,8 +66,8 @@ define([
                 console.log(response);
             });*/
             Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
+                //$scope.speeches = response;
                 $scope.speeches = response;
-
             });
 
             /*recognition webkit*/
@@ -120,6 +138,10 @@ define([
                         contentType: false
                     }).done(function(data) {
                         console.log(data);
+                        Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
+                            $scope.speeches = response;
+                        });
+
                     });
                 });
                 recognition.stop();

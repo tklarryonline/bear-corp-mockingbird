@@ -125,11 +125,11 @@ transcription<nav class='navbar navbar-inverse col-md-12' role='navigation' styl
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat='speech in speeches.results' speech-directive>
+          <tr ng-repeat='speech in speeches.results' speech-directive sp="speech.filefield" index="$index" length="speeches.results.length">
               <td>[[ speech.accuracy ]]</td>
               <td>[[ speech.pacing ]]</td>
               <td>[[ speech.transcription ]]</td>
-              <td><audio src="/upload/blob_8" /></td>
+              <td><audio src="" /></td>
           </tr>
         </tbody>
       </table>
