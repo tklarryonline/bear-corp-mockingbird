@@ -10149,3 +10149,7 @@ td.visible-print {
 }
 
 /* remove this part below and start develop */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/sss\/Desktop\/workarea\/working\%20on\/testing\%20app\/bear-corp-mockingbird\/app\/styles\/style\.scss}line{font-family:\0000314}}
+body {
+  font-family: 'Quicksand';
+}

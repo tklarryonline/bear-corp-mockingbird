@@ -1,4 +1,4 @@
-define(['angular', 'angular-ui-router'], function(angular) {
+define(['angular', 'lodash', 'angular-ui-router'], function(angular) {
     angular.module('homeModule', ['ui.router']).config(['$stateProvider',
         function($stateProvider) {
             /*config path for home page*/
@@ -13,6 +13,13 @@ define(['angular', 'angular-ui-router'], function(angular) {
         '$location',
         function($scope, $location) {
             /* initialize */
+            $scope.leaderBoards = _.range(20).map(function(value) {
+                var record = {};
+                record.accuracy = Math.round(Math.random(100) * value);
+                record.mood     = "Excited";
+                record.userVote = value;
+                return record;
+            });
             $scope.pageTitle = 'dummy';
 
             /*recognition webkit*/
