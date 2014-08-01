@@ -5,7 +5,6 @@ define([
     'lodash',
     'angular-ui-router',
     'angular-file-upload',
-    'upload',
 ], function(angular, Recorder) {
 
     angular.module('homeModule', ['ui.router', 'angularFileUpload']).config(['$stateProvider',
