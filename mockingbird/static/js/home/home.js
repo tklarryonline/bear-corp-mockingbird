@@ -23,7 +23,6 @@ define([
         return {
             scope: { sp:'=', index:'=', length:'=' },
             link: function(scope, elems) {
-                console.log(scope);
                 elems.find('audio').attr('src', '/' + scope.sp);
                 if (scope.index == scope.length-1) {
                     audiojs.events.ready(function() {
@@ -52,22 +51,19 @@ define([
         'Restangular',
         function($scope, $upload, $location, Restangular, $sce) {
             /* initialize */
-            $scope.leaderBoards = _(_.range(20)).map(function(value) {
-                var record = {};
-                record.accuracy = Math.round(Math.random(100) * value);
-                record.mood = "Excited";
-                record.userVote = value;
-                return record;
-            }).sortBy(function(record) {
-                return -record.accuracy;
-            }).value();
-
-            /*$scope.speeches = Restangular.all("/speeches").getList().then(function(response) {
-                console.log(response);
-            });*/
             Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
-                //$scope.speeches = response;
                 $scope.speeches = response;
+
+                $scope.leaderBoards = _(response.results).map(function(result) {
+                    var record = {}
+                    record.accuracy = result.accuracy
+                    record.owner = result.owner
+                    return record;
+                }).sortBy(function(record) {
+                    return -record.accuracy;
+                }).value();
+                console.log("get here");
+                console.log($scope.leaderBoards);
             });
 
             /*recognition webkit*/

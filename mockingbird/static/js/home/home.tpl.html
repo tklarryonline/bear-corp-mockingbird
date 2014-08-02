@@ -95,24 +95,6 @@ transcription<nav class='navbar navbar-inverse col-md-12' role='navigation' styl
 
   <div class='row'>
     <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>
-      <div class='row text-center'>
-        <div class='col-sm-6 col-md-12 col-lg-12' style='margin-top: 50px;'>
-          <p class='lead'>User result</p>
-        </div>
-        <div class='col-sm-6 col-md-4 col-md-offset-2 col-lg-2 col-lg-offset-2 btn'>
-          <h4 class='text-center'>Accuracy</h4>
-          <span class='label label-success text-center'>90%</span>
-        </div>
-        <div class='col-sm-6 col-md-4 col-lg-2 col-lg-offset-4 btn'>
-          <h4 class='text-center'>Mood</h4>
-          <span class='label label-success text-center'>Happy</span>
-        </div>
-      </div>
-    </div>
-  </div>
-    
-  <div class='row'>
-    <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>
       <h2>Previous Attempts</h2>
     </div>
     <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>
@@ -120,7 +102,7 @@ transcription<nav class='navbar navbar-inverse col-md-12' role='navigation' styl
         <thead>
           <tr>
             <th>Accuracy</th>
-            <th>Pacing</th>
+            <!-- <th>Pacing</th> -->
             <th>Transcription</th>
             <th>Listen</th>
           </tr>
@@ -128,13 +110,14 @@ transcription<nav class='navbar navbar-inverse col-md-12' role='navigation' styl
         <tbody>
           <tr ng-repeat='speech in speeches.results' speech-directive sp="speech.filefield" index="$index" length="speeches.results.length">
               <td>[[ speech.accuracy ]]</td>
-              <td>[[ speech.pacing ]]</td>
+              <!-- <td>[[ speech.pacing ]]</td> -->
               <td>[[ speech.transcription ]]</td>
               <td><audio src="" /></td>
           </tr>
         </tbody>
       </table>
   </div>
+
   <div class='row'>
     <div class='col-sm-12 col-md-12 col-lg-8 col-lg-offset-2'>
       <h2>Leader Board</h2>
@@ -144,15 +127,15 @@ transcription<nav class='navbar navbar-inverse col-md-12' role='navigation' styl
         <thead>
           <tr>
             <th>Accuracy</th>
-            <th>Moode</th>
-            <th>User vote</th>
+            <!-- <th>Moode</th> -->
+            <th>Owner</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat='record in leaderBoards'>
-            <td>[[record.accuracy]] %</td>
-            <td>[[record.mood]]</td>
-            <td>[[record.userVote]]</td>
+            <td>[[record.accuracy * 100 | number: 2]]%</td>
+            <!-- <td>[[record.mood]]</td> -->
+            <td>[[record.owner]]</td>
           </tr>
         </tbody>
       </table>
