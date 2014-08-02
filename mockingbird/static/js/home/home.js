@@ -75,6 +75,10 @@ define([
     var sampleScriptWords = _.countBy(sampleScript.replace(/\n/g, " ").replace(/[.!?:,]/g, "").toLowerCase().split(" "), function(word) {
         return word;
     });
+
+    window.AudioContext = window.AudioContext||window.webkitAudioContext;
+    context = new AudioContext();
+            
     /* initialize */
     /*$scope.leaderBoards = _(_.range(20)).map(function(value) {
         var record = {};
@@ -89,6 +93,99 @@ define([
     /*$scope.speeches = Restangular.all("/speeches").getList().then(function(response) {
       console.log(response);
       });*/
+
+    var initialAudioBufer;
+    var initialPeaks;
+    var tempAudioBufer;
+    // Create the filter
+    var filter = context.createBiquadFilter();
+
+    var loadSpeechAudio = function(url, audioBuffer) {
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.responseType = 'arraybuffer';
+
+        // Decode asynchronously
+        request.onload = function() {
+            context.decodeAudioData(request.response, function(buffer) {
+                var source = context.createBufferSource();
+                source.buffer = buffer;
+
+                // Create the audio graph.
+                source.connect(filter);
+                filter.connect(context.destination);
+                // Create and specify parameters for the low-pass filter.
+                filter.type = 0; // Low-pass filter. See BiquadFilterNode docs
+                filter.frequency.value = 2000; // Set cutoff to 440 HZ
+
+                initialPeaks = getPeaksAtThreshold(buffer, 2000);
+                console.log(initialPeaks);
+
+            }, function() {});
+        }
+        request.send();
+    }
+
+    var groupNeighborsByTempo = function(intervalCounts) {
+      var tempoCounts = []
+      intervalCounts.forEach(function(intervalCount, i) {
+        // Convert an interval to tempo
+        var theoreticalTempo = 60 / (intervalCount.interval / 44100 );
+
+        // Adjust the tempo to fit within the 90-180 BPM range
+        while (theoreticalTempo < 90) theoreticalTempo *= 2;
+        while (theoreticalTempo > 180) theoreticalTempo /= 2;
+
+        var foundTempo = tempoCounts.some(function(tempoCount) {
+          if (tempoCount.tempo === theoreticalTempo)
+            return tempoCount.count += intervalCount.count;
+        });
+        if (!foundTempo) {
+          tempoCounts.push({
+            tempo: theoreticalTempo,
+            count: intervalCount.count
+          });
+        }
+      });
+    }
+
+    var countIntervalsBetweenNearbyPeaks = function(peaks) {
+      var intervalCounts = [];
+      peaks.forEach(function(peak, index) {
+        for(var i = 0; i < 10; i++) {
+          var interval = peaks[index + i] - peak;
+          var foundInterval = intervalCounts.some(function(intervalCount) {
+            if (intervalCount.interval === interval)
+              return intervalCount.count++;
+          });
+          if (!foundInterval) {
+            intervalCounts.push({
+              interval: interval,
+              count: 1
+            });
+          }
+        }
+      });
+      return intervalCounts;
+    }
+
+    var getPeaksAtThreshold = function(data, threshold) {
+      var peaksArray = [];
+      var length = data.length;
+      for(var i = 0; i < length;) {
+        if (data[i] > threshold) {
+          peaksArray.push(i);
+          // Skip forward ~ 1/4s to get past this peak.
+          i += 10000;
+        }
+        i++;
+      }
+      return peaksArray;
+    }
+
+    loadSpeechAudio('/upload/sample.mp3', initialAudioBufer);
+    console.log()
+
     var updatePage = function() {
         Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
             $scope.speeches = response;
@@ -109,6 +206,11 @@ define([
             }).value();
             $scope.speeches.results = _.map($scope.speeches.results, function(speech) {
 
+                // Calculate tempo/pacing
+                
+                
+
+                // Calculate accuracy
                 var subTotal, totalWords, wordsList;
                 wordsList = _.countBy(speech.transcription.replace(/\n/g, " ").replace(/[.!?:,]/g, "").toLowerCase().split(" "), function(word) {
                     return word;
@@ -133,6 +235,7 @@ define([
                 }
                 return speech;
             });
+
         });
     }
     updatePage();
@@ -225,7 +328,7 @@ define([
                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
                     }
-                        }
+                }
                     }
                     return cookieValue;
                 }
