@@ -191,8 +191,10 @@ define([
             $scope.speeches = response;
             $scope.leaderBoards = _(response.results).map(function(result) {
                 var record = {}
-                record.accuracy = result.accuracy
-                record.owner = result.owner
+                record.accuracy = result.accuracy;
+                Restangular.one('users', result.owner).get().then(function(response) {
+                    record.owner = response.username;
+                });
                 if (record.accuracy < 0.3) {
                     record.progressBarType = "danger";
                 } else if (record.accuracy < 0.6) {
@@ -204,7 +206,7 @@ define([
             }).sortBy(function(record) {
                 return -record.accuracy;
             }).value();
-            $scope.speeches.results = _.map($scope.speeches.results, function(speech) {
+            $scope.speeches.results = _.map(response.results, function(speech) {
 
                 // Calculate tempo/pacing
                 
