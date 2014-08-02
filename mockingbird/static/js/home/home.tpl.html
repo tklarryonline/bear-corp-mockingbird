@@ -102,22 +102,14 @@
         <thead>
           <tr>
             <th>Accuracy</th>
-            <!-- <th>Pacing</th> -->
             <th>Transcription</th>
             <th>Listen</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat='speech in speeches.results' speech-directive sp="speech.filefield" index="$index" length="speeches.results.length">
-<<<<<<< HEAD
               <td>[[ speech.accuracy * 100 | number:2 ]] %</td>
-              <td>[[ speech.pacing ]]</td>
               <td class="transcript"> [[ speech.transcription ]]</td>
-=======
-              <td>[[ speech.accuracy ]]</td>
-              <!-- <td>[[ speech.pacing ]]</td> -->
-              <td>[[ speech.transcription ]]</td>
->>>>>>> 8fbf5ae9e279c460b57890a65b7cbecadd36aa79
               <td><audio src="" /></td>
           </tr>
         </tbody>

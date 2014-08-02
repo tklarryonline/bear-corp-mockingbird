@@ -69,7 +69,6 @@ define([
         '$upload',
         '$location',
         'Restangular',
-<<<<<<< HEAD
     function($scope, $upload, $location, Restangular, $sce) {
 
     var sampleScript = "Welcome to Fight Club.\nThe first rule of Fight Club is: you do not talk about Fight Club.\nThe second rule of Fight Club is: you DO NOT talk about Fight Club!";
@@ -77,7 +76,7 @@ define([
         return word;
     });
     /* initialize */
-    $scope.leaderBoards = _(_.range(20)).map(function(value) {
+    /*$scope.leaderBoards = _(_.range(20)).map(function(value) {
         var record = {};
         record.accuracy = Math.round(Math.random(100) * value);
         record.mood = "Excited";
@@ -85,7 +84,7 @@ define([
         return record;
     }).sortBy(function(record) {
         return -record.accuracy;
-    }).value();
+    }).value();*/
 
     /*$scope.speeches = Restangular.all("/speeches").getList().then(function(response) {
       console.log(response);
@@ -119,6 +118,7 @@ define([
                 });
                 speech.accuracy = subTotal * 1.0 / totalWords;
                 return speech;
+            });
         });
     }
     updatePage();
