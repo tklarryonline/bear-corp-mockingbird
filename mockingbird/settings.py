@@ -58,6 +58,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'gunicorn',
     'rest_framework',
     'mockingbird',
     'mockingbird_api',
@@ -134,7 +135,7 @@ FILE_UPLOAD_HANDLERS = (
 # REST
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
-    'PAGINATE_BY': 10
+    'PAGINATE_BY': 200
 }
 
 MEDIA_URL = '/upload/'
