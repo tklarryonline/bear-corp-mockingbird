@@ -23,144 +23,186 @@ define([
         return {
             scope: { sp:'=', index:'=', length:'=' },
             link: function(scope, elems) {
-                console.log(scope);
                 elems.find('audio').attr('src', '/' + scope.sp);
+                var trans = elems.find('.transcript');
+                trans.click(function() {
+                    console.log('get here');
+                    var transcript = $(this).text();
+
+                    var speech;
+                    speech = new SpeechSynthesisUtterance();
+                    speech.text = transcript;
+                    speech.lang = "en-US";
+                    speech.rate = 1.2;
+                    speech.onend = function(event) {
+                        console.log("Finished in " + event.elapsedTime + " seconds.");
+                    };
+                    return speechSynthesis.speak(speech, {
+                        chunkLength: 120
+                    });
+                });
                 if (scope.index == scope.length-1) {
                     audiojs.events.ready(function() {
                         var as = audiojs.createAll();
                     });
+
+
                 }
-                /*if (scope.$last){
-                    audiojs.events.ready(function() {
-                        var as = audiojs.createAll();
-                    });
-                }*/
+
             }
-        };
+            /*if (scope.$last){
+              audiojs.events.ready(function() {
+              var as = audiojs.createAll();
+              });
+              }*/
+        }
         /*return function(scope, element, attrs) {
-            element.find('audio').attr(src, '');
-            if (scope.$last){
-                audiojs.events.ready(function() {
-                    var as = audiojs.createAll();
-                });
-            }
-        };*/
+          element.find('audio').attr(src, '');
+          if (scope.$last){
+          audiojs.events.ready(function() {
+          var as = audiojs.createAll();
+          });
+          }
+          };*/
     }).controller('HomeController', [
         '$scope',
         '$upload',
         '$location',
         'Restangular',
-        function($scope, $upload, $location, Restangular, $sce) {
-            /* initialize */
-            $scope.leaderBoards = _(_.range(20)).map(function(value) {
-                var record = {};
-                record.accuracy = Math.round(Math.random(100) * value);
-                record.mood = "Excited";
-                record.userVote = value;
-                return record;
-            }).sortBy(function(record) {
-                return -record.accuracy;
-            }).value();
+    function($scope, $upload, $location, Restangular, $sce) {
 
-            /*$scope.speeches = Restangular.all("/speeches").getList().then(function(response) {
-                console.log(response);
-            });*/
-            Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
-                //$scope.speeches = response;
-                $scope.speeches = response;
-            });
+    var sampleScript = "Welcome to Fight Club.\nThe first rule of Fight Club is: you do not talk about Fight Club.\nThe second rule of Fight Club is: you DO NOT talk about Fight Club!";
+    var sampleScriptWords = _.countBy(sampleScript.replace(/\n/g, " ").replace(/[.!?:,]/g, "").toLowerCase().split(" "), function(word) {
+        return word;
+    });
+    /* initialize */
+    $scope.leaderBoards = _(_.range(20)).map(function(value) {
+        var record = {};
+        record.accuracy = Math.round(Math.random(100) * value);
+        record.mood = "Excited";
+        record.userVote = value;
+        return record;
+    }).sortBy(function(record) {
+        return -record.accuracy;
+    }).value();
 
-            /*recognition webkit*/
-            var recognition = new webkitSpeechRecognition();
-            recognition.lang = "en-GB";
-            recognition.continuous = true;
-            recognition.interimResults = true;
+    /*$scope.speeches = Restangular.all("/speeches").getList().then(function(response) {
+      console.log(response);
+      });*/
+    var updatePage = function() {
+        Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
+            $scope.speeches = response;
+            $scope.speeches.results = _.map($scope.speeches.results, function(speech) {
 
-            var transcription;
-            /*on result return*/
-            recognition.onresult = function(event) {
-                transcription = event.results[0][0].transcript;
-                console.log(transcription);
-            };
-
-            var mediaStream, localRecorder;
-
-            $scope.recordStartEventHandler = function() {
-                var navigator = window.navigator;
-                recognition.start();
-                navigator.getUserMedia = (
-                    navigator.getUserMedia ||
-                    navigator.webkitGetUserMedia ||
-                    navigator.mozGetUserMedia ||
-                    navigator.msGetUserMedia
-                );
-
-                if (navigator.getUserMedia) {
-                    navigator.getUserMedia(
-                        { audio: true },
-                        // successCallback
-                        function(localMediaStream) {
-                            mediaStream           = localMediaStream;
-                            var context           = new webkitAudioContext();
-                            var mediaStreamSource = context.createMediaStreamSource(localMediaStream);
-                            var rec               = new window.Recorder(mediaStreamSource);
-                            rec.record();
-                            localRecorder = rec;
-                            mediaStream = localMediaStream;
-                        },
-
-                        // errorCallback
-                        function(err) {
-                            console.log("The following error occured: " + err);
-                        }
-                    );
-                } else {
-                    console.log("getUserMedia not supported");
-                }
-            };
-
-            $scope.recordStopEventHandler = function() {
-                mediaStream.stop();
-                localRecorder.stop();
-                localRecorder.exportWAV(function(e) {
-                    localRecorder.clear();
-                    console.log(e);
-                    // window.Recorder.forceDownload(e);
-                    var fd = new FormData();
-                    fd.append('fname', 'test.wav');
-                    fd.append('data', e);
-                    fd.append('transcription', transcription);
-                    $.ajax({
-                        type: 'POST',
-                        url: '/speeches/submit-silent/',
-                        data: fd,
-                        processData: false,
-                        contentType: false
-                    }).done(function(data) {
-                        console.log(data);
-                        Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
-                            $scope.speeches = response;
-                        });
-
-                    });
+                var subTotal, totalWords, wordsList;
+                wordsList = _.countBy(speech.transcription.replace(/\n/g, " ").replace(/[.!?:,]/g, "").toLowerCase().split(" "), function(word) {
+                    return word;
                 });
-                recognition.stop();
-            };
+                console.log(wordsList);
+                totalWords = _.reduce(_.pluck(wordsList), function(prev, next) {
+                    return prev + next;
+                }, 0);
+                subTotal = 0;
+                _.each(wordsList, function(value, key) {
+                    if (_.has(sampleScriptWords, key)) {
+                        return subTotal += value;
+                    }
+                });
+                speech.accuracy = subTotal * 1.0 / totalWords;
+                return speech;
+            });
+        });
+    }
+    updatePage();
 
-            $scope.uploadEventHandler = function($files) {
-                var submitFile = _.first($files);
-                // using jQuery
-                function getCookie(name) {
-                    var cookieValue = null;
-                    if (document.cookie && document.cookie != '') {
-                        var cookies = document.cookie.split(';');
-                        for (var i = 0; i < cookies.length; i++) {
-                            var cookie = jQuery.trim(cookies[i]);
-                            // Does this cookie string begin with the name we want?
-                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                break;
-                            }
+    /*recognition webkit*/
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = "en-GB";
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    var transcription;
+    /*on result return*/
+    recognition.onresult = function(event) {
+        transcription = event.results[0][0].transcript;
+        console.log(transcription);
+    };
+
+    var mediaStream, localRecorder;
+
+    $scope.recordStartEventHandler = function() {
+        var navigator = window.navigator;
+        recognition.start();
+        navigator.getUserMedia = (
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia
+        );
+
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia(
+                { audio: true },
+                // successCallback
+                function(localMediaStream) {
+                    mediaStream           = localMediaStream;
+                    var context           = new webkitAudioContext();
+                    var mediaStreamSource = context.createMediaStreamSource(localMediaStream);
+                    var rec               = new window.Recorder(mediaStreamSource);
+                    rec.record();
+                    localRecorder = rec;
+                    mediaStream = localMediaStream;
+                },
+
+                // errorCallback
+                function(err) {
+                    console.log("The following error occured: " + err);
+                }
+            );
+        } else {
+            console.log("getUserMedia not supported");
+        }
+    };
+
+    $scope.recordStopEventHandler = function() {
+        mediaStream.stop();
+        localRecorder.stop();
+        localRecorder.exportWAV(function(e) {
+            localRecorder.clear();
+            console.log(e);
+            // window.Recorder.forceDownload(e);
+            var fd = new FormData();
+            fd.append('fname', 'test.wav');
+            fd.append('data', e);
+            fd.append('transcription', transcription);
+            $.ajax({
+                type: 'POST',
+                url: '/speeches/submit-silent/',
+                data: fd,
+                processData: false,
+                contentType: false
+            }).done(function(data) {
+                console.log(data);
+                updatePage();
+            });
+        });
+        recognition.stop();
+    };
+
+    $scope.uploadEventHandler = function($files) {
+        var submitFile = _.first($files);
+        // using jQuery
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                         }
                     }
                     return cookieValue;
@@ -187,6 +229,22 @@ define([
             $scope.submitFileUploadForm = function() {
                 $("#fileupload").submit();
             };
+
+            $scope.readTranscript = function(transcript) {
+                console.log(transcript);
+                var speech;
+                speech = new SpeechSynthesisUtterance();
+                speech.text = transcript;
+                speech.lang = "en-US";
+                speech.rate = 1.2;
+                speech.onend = function(event) {
+                    console.log("Finished in " + event.elapsedTime + " seconds.");
+                };
+                return speechSynthesis.speak(speech, {
+                    chunkLength: 120
+                });
+            };
+
         }
     ]);
 });

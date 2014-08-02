@@ -18,13 +18,17 @@ import time
 @csrf_exempt
 def submit_silent(request):
     if request.method == 'POST':
+        if 'title' not in request.POST or request.POST['title'] == '':
+            request.POST['title'] = request.user.username + '_' + str(time.time())
+        if 'fname' not in request.POST:
+            request.POST['fname'] = request.POST['title']
         if 'accuracy' not in request.POST:
             request.POST['accuracy'] = 0.0
         if 'pacing' not in request.POST:
             request.POST['pacing'] = 0.0
         if 'transcription' not in request.POST:
             request.POST['transcription'] = ''
-        title = request.user.username + '_' + str(time.time()) + '_' + request.POST['fname']
+        title = request.POST['fname']
         filefield = request.FILES['data']
         transcription = request.POST['transcription']
         owner = request.user
@@ -34,12 +38,20 @@ def submit_silent(request):
                 accuracy=accuracy, pacing=pacing)
         speech.save()
 
-    return HttpResponse('200')
+    return HttpResponseRedirect('/accounts/profile')
 
 @csrf_exempt
 def submit(request):
     if request.method == 'POST':
-        title = request.POST['title']
+        if 'accuracy' not in request.POST:
+            request.POST['accuracy'] = 0.0
+        if 'pacing' not in request.POST:
+            request.POST['pacing'] = 0.0
+        if 'transcription' not in request.POST:
+            request.POST['transcription'] = ''
+        if 'title' not in request.POST or request.POST['title'] == '':
+            request.POST['title'] = request.user.username + '_' + str(time.time())
+        title = request.POST['title'] + '_' + str(time.time())
         filefield = request.FILES['audio']
         owner = request.user
         speech = Speech(title=title, filefield=filefield, owner=owner)

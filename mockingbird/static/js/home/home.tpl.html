@@ -1,4 +1,4 @@
-transcription<nav class='navbar navbar-inverse col-md-12' role='navigation' style='border-radius: 0px;'>
+<nav class='navbar navbar-inverse col-md-12' role='navigation' style='border-radius: 0px;'>
   <div class='container-fluid'>
     <div class='navbar-header'>
       <a class='navbar-brand' href='javascript: void(0)' style='font-size: 25px;'>Mockingbird</a>
@@ -27,9 +27,9 @@ transcription<nav class='navbar navbar-inverse col-md-12' role='navigation' styl
       <div class='btn btn-info upload-btn-binding' ng-click='bindFileUploadClick()'>
         Upload Record
       </div>
-      <form class="hide" id="fileupload" enctype="multipart/form-data" action="/speeches/submit/" method="POST">
-          <input type="file" name="audio" id="uploader" />
-          <input type="text" name="title" id="title" />
+      <form class="hide" id="fileupload" enctype="multipart/form-data" action="/speeches/submit-silent/" method="POST">
+          <input type="file" name="data" id="uploader" />
+          <input type="text" name="title" id="title" value='' />
           <input type="submit" value="submit">
       </form>
     </div>
@@ -127,9 +127,9 @@ transcription<nav class='navbar navbar-inverse col-md-12' role='navigation' styl
         </thead>
         <tbody>
           <tr ng-repeat='speech in speeches.results' speech-directive sp="speech.filefield" index="$index" length="speeches.results.length">
-              <td>[[ speech.accuracy ]]</td>
+              <td>[[ speech.accuracy * 100 | number:2 ]] %</td>
               <td>[[ speech.pacing ]]</td>
-              <td>[[ speech.transcription ]]</td>
+              <td class="transcript"> [[ speech.transcription ]]</td>
               <td><audio src="" /></td>
           </tr>
         </tbody>
