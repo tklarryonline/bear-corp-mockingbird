@@ -15,4 +15,6 @@ class Speech(models.Model):
 
     class Meta:
         ordering = ('created',)
-# Create your models here.
+
+    def __unicode__(self):
+        return self.title
