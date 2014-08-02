@@ -6,6 +6,7 @@
     text-align: center;
 }
 
-.audiojs {
+#sample-audio .audiojs {
     display: table-cell;
 }
+

@@ -76,8 +76,8 @@ define([
         return word;
     });
 
-    window.AudioContext = window.AudioContext||window.webkitAudioContext;
-    context = new AudioContext();
+    /*window.AudioContext = window.AudioContext||window.webkitAudioContext;
+    context = new AudioContext();*/
             
     /* initialize */
     /*$scope.leaderBoards = _(_.range(20)).map(function(value) {
@@ -94,7 +94,7 @@ define([
       console.log(response);
       });*/
 
-    var initialAudioBufer;
+    /*var initialAudioBufer;
     var initialPeaks;
     var tempAudioBufer;
     var samplePitch;
@@ -183,7 +183,7 @@ define([
       return peaksArray;
     }
 
-    //loadSpeechAudio('/upload/sample.mp3', samplePitch);
+    //loadSpeechAudio('/upload/sample.mp3', samplePitch);*/
 
     var updatePage = function() {
         Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
@@ -295,7 +295,7 @@ define([
         localRecorder.stop();
         localRecorder.exportWAV(function(e) {
             localRecorder.clear();
-            console.log(e);
+            console.log(transcription);
             // window.Recorder.forceDownload(e);
             var fd = new FormData();
             fd.append('fname', 'test.wav');
