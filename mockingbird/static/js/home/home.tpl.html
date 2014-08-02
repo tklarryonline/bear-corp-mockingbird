@@ -101,14 +101,14 @@
       <table class='table' id='attempts-table'>
         <thead>
           <tr>
-            <th>Accuracy</th>
+            <th ng-click="orderByField='accuracy'; reverseSort = !reverseSort">Accuracy</th>
             <th>Transcription</th>
             <th>Listen</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat='speech in speeches.results' speech-directive sp="speech.filefield" index="$index" length="speeches.results.length">
-              <td>[[ speech.accuracy * 100 | number:2 ]] %</td>
+          <tr ng-repeat='speech in speeches.results|orderBy:orderByField:reverseSort' speech-directive sp="speech.filefield" index="$index" length="speeches.results.length">
+              <td><progressbar type="[[speech.progressBarType]]" value="[[speech.accuracy * 100]]">[[speech.accuracy * 100 | number: 2]]%</progressbar></td>
               <td class="transcript"> [[ speech.transcription ]]</td>
               <td><audio src="" /></td>
           </tr>
@@ -131,7 +131,7 @@
         </thead>
         <tbody>
           <tr ng-repeat='record in leaderBoards'>
-            <td>[[record.accuracy * 100 | number: 2]]%</td>
+            <td><progressbar type="[[record.progressBarType]]" value="[[record.accuracy * 100]]">[[record.accuracy * 100 | number: 2]]%</progressbar></td>
             <!-- <td>[[record.mood]]</td> -->
             <td>[[record.owner]]</td>
           </tr>
