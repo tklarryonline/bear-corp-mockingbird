@@ -14,6 +14,11 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 import time
 
+def analyze(request):
+    if request.method == 'POST':
+        print request.POST['url']
+
+    return HttpResponse('0')
 
 @csrf_exempt
 def submit_silent(request):
