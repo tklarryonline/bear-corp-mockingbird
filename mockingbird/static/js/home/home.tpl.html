@@ -102,6 +102,7 @@
         <thead>
           <tr>
             <th ng-click="orderByField='accuracy'; reverseSort = !reverseSort">Accuracy</th>
+            <th>Pitch</th>
             <th>Transcription</th>
             <th>Listen</th>
           </tr>
@@ -109,6 +110,7 @@
         <tbody>
           <tr ng-repeat='speech in speeches.results|orderBy:orderByField:reverseSort' speech-directive sp="speech.filefield" index="$index" length="speeches.results.length">
               <td><progressbar type="[[speech.progressBarType]]" value="[[speech.accuracy * 100]]">[[speech.accuracy * 100 | number: 2]]%</progressbar></td>
+              <td>[[ speech.pitch ]]</td>
               <td class="transcript"> [[ speech.transcription ]]</td>
               <td><audio src="" /></td>
           </tr>

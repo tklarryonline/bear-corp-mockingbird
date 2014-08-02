@@ -14,6 +14,11 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 import time
 
+def analyze(request):
+    if request.method == 'POST':
+        print request.POST['url']
+
+    return HttpResponse('0')
 
 @csrf_exempt
 def submit_silent(request):
@@ -24,8 +29,8 @@ def submit_silent(request):
             request.POST['fname'] = request.POST['title']
         if 'accuracy' not in request.POST:
             request.POST['accuracy'] = 0.0
-        if 'pacing' not in request.POST:
-            request.POST['pacing'] = 0.0
+        if 'pitch' not in request.POST:
+            request.POST['pitch'] = 0.0
         if 'transcription' not in request.POST:
             request.POST['transcription'] = ''
         title = request.POST['fname']
@@ -33,9 +38,9 @@ def submit_silent(request):
         transcription = request.POST['transcription']
         owner = request.user
         accuracy = request.POST['accuracy']
-        pacing = request.POST['pacing']
+        pitch = request.POST['pitch']
         speech = Speech(title=title, filefield=filefield, transcription=transcription, owner=owner,
-                accuracy=accuracy, pacing=pacing)
+                accuracy=accuracy,pitch=pitch)
         speech.save()
 
     return HttpResponseRedirect('/accounts/profile')

@@ -97,10 +97,11 @@ define([
     var initialAudioBufer;
     var initialPeaks;
     var tempAudioBufer;
+    var samplePitch;
     // Create the filter
     var filter = context.createBiquadFilter();
 
-    var loadSpeechAudio = function(url, audioBuffer) {
+    var loadSpeechAudio = function(url, pitch) {
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.responseType = 'arraybuffer';
@@ -116,10 +117,9 @@ define([
                 filter.connect(context.destination);
                 // Create and specify parameters for the low-pass filter.
                 filter.type = 0; // Low-pass filter. See BiquadFilterNode docs
-                filter.frequency.value = 2000; // Set cutoff to 440 HZ
+                filter.frequency.value = 440; // Set cutoff to 440 HZ
 
-                initialPeaks = getPeaksAtThreshold(buffer, 2000);
-                console.log(initialPeaks);
+                var initialPeaks = getPeaksAtThreshold(buffer.getChannelData(0), 0);
 
             }, function() {});
         }
@@ -183,8 +183,7 @@ define([
       return peaksArray;
     }
 
-    loadSpeechAudio('/upload/sample.mp3', initialAudioBufer);
-    console.log()
+    //loadSpeechAudio('/upload/sample.mp3', samplePitch);
 
     var updatePage = function() {
         Restangular.oneUrl('speeches', '/speeches').get().then(function(response) {
@@ -208,8 +207,6 @@ define([
 
                 // Calculate tempo/pacing
                 
-                
-
                 // Calculate accuracy
                 var subTotal, totalWords, wordsList;
                 wordsList = _.countBy(speech.transcription.replace(/\n/g, " ").replace(/[.!?:,]/g, "").toLowerCase().split(" "), function(word) {
@@ -233,6 +230,8 @@ define([
                 } else {
                     speech.progressBarType = "success";
                 }
+
+                speech.pitch = 0;
                 return speech;
             });
 
