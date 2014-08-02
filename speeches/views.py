@@ -29,8 +29,8 @@ def submit_silent(request):
             request.POST['fname'] = request.POST['title']
         if 'accuracy' not in request.POST:
             request.POST['accuracy'] = 0.0
-        if 'pitch' not in request.POST:
-            request.POST['pitch'] = 0.0
+        if 'pacing' not in request.POST:
+            request.POST['pacing'] = 0.0
         if 'transcription' not in request.POST:
             request.POST['transcription'] = ''
         title = request.POST['fname']
@@ -38,9 +38,9 @@ def submit_silent(request):
         transcription = request.POST['transcription']
         owner = request.user
         accuracy = request.POST['accuracy']
-        pitch = request.POST['pitch']
+        pacing = request.POST['pacing']
         speech = Speech(title=title, filefield=filefield, transcription=transcription, owner=owner,
-                accuracy=accuracy,pitch=pitch)
+                accuracy=accuracy, pacing=pacing)
         speech.save()
 
     return HttpResponseRedirect('/accounts/profile')

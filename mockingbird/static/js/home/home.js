@@ -233,7 +233,7 @@ define([
                     speech.progressBarType = "success";
                 }
 
-                speech.pitch = 0;
+                speech.pitch = Math.random() * 10;
                 return speech;
             });
 

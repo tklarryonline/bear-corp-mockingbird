@@ -11,7 +11,7 @@ class Speech(models.Model):
     owner = models.ForeignKey(User, related_name='speeches')
     transcription = models.TextField()
     accuracy = models.DecimalField(max_digits=5, decimal_places=2)
-    pitch = models.DecimalField(max_digits=5, decimal_places=2)
+    pacing = models.DecimalField(max_digits=5, decimal_places=2)
 
     class Meta:
         ordering = ('created',)
