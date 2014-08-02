@@ -193,6 +193,13 @@ define([
                 var record = {}
                 record.accuracy = result.accuracy
                 record.owner = result.owner
+                if (record.accuracy < 0.3) {
+                    record.progressBarType = "danger";
+                } else if (record.accuracy < 0.6) {
+                    record.progressBarType = "warning";
+                } else {
+                    record.progressBarType = "success";
+                }
                 return record;
             }).sortBy(function(record) {
                 return -record.accuracy;
@@ -219,6 +226,13 @@ define([
                     }
                 });
                 speech.accuracy = subTotal * 1.0 / totalWords;
+                if (speech.accuracy < 0.3) {
+                    speech.progressBarType = "danger";
+                } else if (speech.accuracy < 0.6) {
+                    speech.progressBarType = "warning";
+                } else {
+                    speech.progressBarType = "success";
+                }
                 return speech;
             });
 
